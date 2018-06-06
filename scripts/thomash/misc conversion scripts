@@ -22,5 +22,4 @@ ffmpeg -i "$1" -r 20 -filter_complex '[0:a]showspectrum=slide=replace:s=256x512:
 
 
 # convert video to images on remote spell
-spell run --framework torch --apt ffmpeg  ./scripts/thomash/convertVideo wildeJagd2_512 "uploads/wallensteinVideo.mp4/wilde_jagd_wallentstein.mp4"
-
+spell run --framework torch --apt ffmpeg --mount uploads/inputVideo:/mnt/inputVideo ./scripts/thomash/convertVideo wildeJagd2_512 /mnt/inputVideo/wallenstein.mp4

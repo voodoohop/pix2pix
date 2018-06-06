@@ -4,12 +4,12 @@ trap "exit" INT
 MODEL=$1
 SOURCE_VIDEO=$2
 SOURCE_NAME=$(basename "$SOURCE_VIDEO")
-CANNY_PARAM=${3:-"-canny 0x4+20%+40%"}
+CANNY_PARAM=${3:-"-blur 0x50 -type Grayscale -contrast-stretch 0"}
 VIDEOSIZE=${4:-"512"}
 CANNY_SAFE=${CANNY_PARAM//[\%]/p}
 RAWNAME="$SOURCE_NAME"_"$CANNY_SAFE"_"$MODEL"
 NAME=${RAWNAME// /_}
-FPS=40
+FPS=20
 
 echo "NAME: $NAME"
 sleep 1
