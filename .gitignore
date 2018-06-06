@@ -9,7 +9,7 @@ results/
 *.src.rock
 *.zip
 *.tar.gz
-*.t7
+# *.t7
 
 # Object files
 *.o
