@@ -24,4 +24,4 @@ ffmpeg -i "$1" -r 20 -filter_complex '[0:a]showspectrum=slide=replace:s=256x512:
 # convert video to images on remote spell
 spell run --framework torch --apt ffmpeg --mount uploads/inputVideo:/mnt/inputVideo ./scripts/thomash/convertVideo wildeJagd2_512 /mnt/inputVideo/wallenstein.mp4
 # do remote training references dataset created before
- spell run --framework torch --apt ffmpeg --mount runs/2118/imgs/video_sequences/wallenstein.mp4_-blur_0x50_-type_Grayscale_-contrast-stretch_0_wildeJagd2_512/:/inputImages/train bash scripts/thomash/runTrain
+ spell run --framework torch --apt ffmpeg --mount runs/2118/imgs/video_sequences/wallenstein.mp4_-blur_0x50_-type_Grayscale_-contrast-stretch_0_wildeJagd2_512/AB:/inputImages/AB/train bash scripts/thomash/runTrain
