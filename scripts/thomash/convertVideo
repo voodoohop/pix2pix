@@ -14,7 +14,7 @@ FPS=40
 echo "NAME: $NAME"
 sleep 1
 rm -r "imgs/video_sequences/$NAME"
-mkdir "imgs/video_sequences/$NAME"
+mkdir -p "imgs/video_sequences/$NAME"
 mkdir "imgs/video_sequences/$NAME/A"
 mkdir "imgs/video_sequences/$NAME/B"
 mkdir "imgs/video_sequences/$NAME/AB"
