@@ -19,3 +19,8 @@ ENCODING_PARAMS="-vcodec libx264 -acodec aac -preset slow -crf 17 "
 ffmpeg -i "$1" -r 20 -filter_complex "[0:a]showcqt=timeclamp=1:axis=0:count=15:s=512x512:basefreq=40:endfreq=150:bar_t=0.5:fcount=5,format=yuv420p[v]" -map "[v]" -map 0:a $ENCODING_PARAMS "video/set/$FILENAME-cqt.mp4"
 ffmpeg -i "$1" -r 20 -filter_complex '[0:a]avectorscope=m=lissajous:draw=line:s=512x512:scale=lin:zoom=0,format=yuv420p[v]' -map "[v]"  -map 0:a $ENCODING_PARAMS "video/set/$FILENAME-vectorscope.mp4"
 ffmpeg -i "$1" -r 20 -filter_complex '[0:a]showspectrum=slide=replace:s=256x512:gain=2,format=yuv420p[v]' -map "[v]"  -map 0:a $ENCODING_PARAMS "video/set/$FILENAME-spectrum.mp4"
+
+
+# convert video to images on remote spell
+spell run --framework torch --apt ffmpeg  ./scripts/thomash/convertVideo wildeJagd2_512 "uploads/wallensteinVideo.mp4/wilde_jagd_wallentstein.mp4"
+

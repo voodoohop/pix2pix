@@ -19,6 +19,7 @@ mkdir "imgs/video_sequences/$NAME/A"
 mkdir "imgs/video_sequences/$NAME/B"
 mkdir "imgs/video_sequences/$NAME/AB"
 echo "extracting video frames and audio..."
+ls -l "$SOURCE_VIDEO"
 ffmpeg -i "$SOURCE_VIDEO" -r $FPS -vf scale=$VIDEOSIZE:$VIDEOSIZE "imgs/video_sequences/$NAME/A/frame_%04d.png"
 ffmpeg -i "$SOURCE_VIDEO" -y -vn -c:a libmp3lame /tmp/output.mp3
 
