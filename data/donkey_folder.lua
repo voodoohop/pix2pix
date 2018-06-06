@@ -117,8 +117,9 @@ local function loadImageChannel(path)
 end
 
 --local function loadImage
-
+  
 local function loadImage(path)
+   print("loading image", path)
    local input = image.load(path, 3, 'float')
    local h = input:size(2)
    local w = input:size(3)

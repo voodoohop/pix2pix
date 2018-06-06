@@ -1,0 +1,28 @@
+#!/bin/bash 
+mkdir A
+mkdir B
+cp source/*.png ./A
+mogrify -resize "512x512!" A/*.png
+mogrify -path ./B -canny 0x2+5%+10% "A/*.png"
+mkdir A/train
+mkdir A/test
+mkdir A/validate
+mv A/*.png A/train
+for file in `find A/train -type f | awk 'NR %4 == 0'`; do mv $file A/test ; done
+for file in `find A/train -type f | awk 'NR %5 == 0'`; do mv $file A/validate ; done
+mkdir B/train
+mkdir B/test
+mkdir B/validate
+mv B/*.png B/train
+for file in `find B/train -type f | awk 'NR %4 == 0'`; do mv $file B/test ; done
+for file in `find B/train -type f | awk 'NR %5 == 0'`; do mv $file B/validate ; done
+
+
+ffplay -i INPUT.wav -filter_complex "[0:a]showwaves=mode=line:s=hd480:colors=White[v]" -map "[v]" -map 0:a -pix_fmt yuv420p -b:a 360k -r:a 44100 
+
+ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=1:size=512x512:mode=p2p:n=5:colors=white" "/tmp/res.mp4"
+ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=0:size=512x512:n=5:colors=white:mode=line,format=yuv420p" "../pix2pix/imgs/video_sequences/showWaves/frame_%04d.png"
+
+
+
+ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -r 20 -filter_complex 'avectorscope=m=lissajous:draw=line:s=512x512:scale=lin:zoom=0' /tmp/res2.mp4

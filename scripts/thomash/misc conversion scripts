@@ -1,0 +1,21 @@
+#!/bin/bash
+# ffplay -i INPUT.wav -filter_complex "[0:a]showwaves=mode=line:s=hd480:colors=White[v]" -map "[v]" -map 0:a -pix_fmt yuv420p -b:a 360k -r:a 44100 
+
+# ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=1:size=512x512:mode=p2p:n=5:colors=white" "/tmp/res.mp4"
+# ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=0:size=512x512:n=5:colors=white:mode=line,format=yuv420p" "../pix2pix/imgs/video_sequences/showWaves/frame_%04d.png"
+
+
+
+
+
+
+
+
+#nice cqt preserving audio
+
+FILENAME=$(basename "$1")
+echo "NAME $FILENAME"
+ENCODING_PARAMS="-vcodec libx264 -acodec aac -preset slow -crf 17 "
+ffmpeg -i "$1" -r 20 -filter_complex "[0:a]showcqt=timeclamp=1:axis=0:count=15:s=512x512:basefreq=40:endfreq=150:bar_t=0.5:fcount=5,format=yuv420p[v]" -map "[v]" -map 0:a $ENCODING_PARAMS "video/set/$FILENAME-cqt.mp4"
+ffmpeg -i "$1" -r 20 -filter_complex '[0:a]avectorscope=m=lissajous:draw=line:s=512x512:scale=lin:zoom=0,format=yuv420p[v]' -map "[v]"  -map 0:a $ENCODING_PARAMS "video/set/$FILENAME-vectorscope.mp4"
+ffmpeg -i "$1" -r 20 -filter_complex '[0:a]showspectrum=slide=replace:s=256x512:gain=2,format=yuv420p[v]' -map "[v]"  -map 0:a $ENCODING_PARAMS "video/set/$FILENAME-spectrum.mp4"

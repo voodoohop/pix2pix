@@ -1,0 +1,46 @@
+#!/bin/bash
+trap "exit" INT
+
+MODEL=$1
+SOURCE_VIDEO=$2
+SOURCE_NAME=$(basename "$SOURCE_VIDEO")
+CANNY_PARAM=${3:-"-canny 0x4+20%+40%"}
+VIDEOSIZE=${4:-"512"}
+CANNY_SAFE=${CANNY_PARAM//[\%]/p}
+RAWNAME="$SOURCE_NAME"_"$CANNY_SAFE"_"$MODEL"
+NAME=${RAWNAME// /_}
+FPS=40
+
+echo "NAME: $NAME"
+sleep 1
+rm -r "imgs/video_sequences/$NAME"
+mkdir "imgs/video_sequences/$NAME"
+mkdir "imgs/video_sequences/$NAME/A"
+mkdir "imgs/video_sequences/$NAME/B"
+mkdir "imgs/video_sequences/$NAME/AB"
+echo "extracting video frames and audio..."
+ffmpeg -i "$SOURCE_VIDEO" -r $FPS -vf scale=$VIDEOSIZE:$VIDEOSIZE "imgs/video_sequences/$NAME/A/frame_%04d.png"
+ffmpeg -i "$SOURCE_VIDEO" -y -vn -c:a libmp3lame /tmp/output.mp3
+
+
+#cp imgs/video_sequences/$NAME/A/frame_*.png "imgs/video_sequences/$NAME/B/"
+echo "combining edge and target images..."
+for file in imgs/video_sequences/$NAME/A/frame_*.png
+do
+  filename=$(basename $file)
+  echo "file $file filename $filename"
+  imageA=$file
+  echo "imageA $imageA"
+  imageB="imgs/video_sequences/$NAME/B/$filename"
+  imageAB="imgs/video_sequences/$NAME/AB/$filename"
+  echo "combining $imageA $imageB ... and running edge detector... with $CANNY_PARAM"
+  convert $imageA $CANNY_PARAM $imageB
+  convert +append $imageA $imageB $imageAB
+done
+echo "running neural network..."
+rm -r results/$MODEL/latest_net_G_AB/images/
+DATA_ROOT=imgs/video_sequences/$NAME name=$MODEL which_direction=BtoA phase=AB gpu=0 cudnn=0 loadSize=$VIDEOSIZE fineSize=$VIDEOSIZE th test.lua
+echo "combining rendered frames and audio..."   
+ffmpeg -y -f image2 -pattern_type glob -framerate $FPS -i "results/$MODEL/latest_net_G_AB/images/output/*.png"  -i /tmp/output.mp3 -c:v prores_ks -profile:v 3  -f mov -acodec libmp3lame -aq 2 -crf 17  -r $FPS "results/$NAME.mov"
+ffplay -loop 0 "results/$NAME.mov"
+
