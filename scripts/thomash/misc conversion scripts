@@ -26,6 +26,7 @@ spell run --framework torch --apt ffmpeg --mount uploads/inputVideo:/mnt/inputVi
 # do remote training references dataset created before
  spell run --framework torch --apt ffmpeg --mount runs/2118/imgs/video_sequences/wallenstein.mp4_-blur_0x50_-type_Grayscale_-contrast-stretch_0_wildeJagd2_512/AB:/inputImages/AB/train bash scripts/thomash/runTrain
 
+spell run --machine-type V100 --framework torch --apt ffmpeg --mount runs/2118/imgs/video_sequences/wallenstein.mp4_-blur_0x50_-type_Grayscale_-contrast-stretch_0_wildeJagd2_512/AB:/inputImages/AB/train bash scripts/thomash/runTrain
 
 #remove special chars from files
 rename 's/ |\$|@|\[|\]|\(|\)/_/g' *
