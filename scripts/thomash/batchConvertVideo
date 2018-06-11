@@ -1,0 +1,21 @@
+#!/bin/bash
+trap "exit" INT
+
+# model=wildeJagd_meister_512
+# params=("-blur 0x5 -type Grayscale -contrast-stretch 0" "-blur 0x30 -negate -type Grayscale -contrast-stretch 0")   
+
+model=wildeJagd2_512
+params=("-blur 0x20 -negate -type Grayscale -contrast-stretch 0")   
+
+
+# model=wildeJagd_elefanten
+# params=("-canny 0x2+5%+10%")
+
+
+
+for canny in "${params[@]}"; do
+for videofile in "$@"; do
+    echo ./scripts/thomash/convertVideo "$model" "$videofile" "$canny"
+    ./scripts/thomash/convertVideo "$model" "$videofile" "$canny"
+done
+done 

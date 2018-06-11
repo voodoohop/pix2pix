@@ -21,7 +21,7 @@ for file in `find B/train -type f | awk 'NR %5 == 0'`; do mv $file B/validate ; 
 ffplay -i INPUT.wav -filter_complex "[0:a]showwaves=mode=line:s=hd480:colors=White[v]" -map "[v]" -map 0:a -pix_fmt yuv420p -b:a 360k -r:a 44100 
 
 ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=1:size=512x512:mode=p2p:n=5:colors=white" "/tmp/res.mp4"
-ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=0:size=512x512:n=5:colors=white:mode=line,format=yuv420p" "../pix2pix/imgs/video_sequences/showWaves/frame_%04d.png"
+ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=0:size=512x512:n=5:colors=white:mode=line,format=yuv420p" "../pix2pix/imgs/video_sequences/showWaves/frame_%05d.png"
 
 
 

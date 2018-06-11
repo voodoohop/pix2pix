@@ -2,7 +2,7 @@
 # ffplay -i INPUT.wav -filter_complex "[0:a]showwaves=mode=line:s=hd480:colors=White[v]" -map "[v]" -map 0:a -pix_fmt yuv420p -b:a 360k -r:a 44100 
 
 # ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=1:size=512x512:mode=p2p:n=5:colors=white" "/tmp/res.mp4"
-# ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=0:size=512x512:n=5:colors=white:mode=line,format=yuv420p" "../pix2pix/imgs/video_sequences/showWaves/frame_%04d.png"
+# ffmpeg -i input/audio/Die\ Wilde\ Jagd\ -\ Wah\ Wah\ Wallenstein\ \(official\).mp3 -filter_complex "showwaves=split_channels=0:size=512x512:n=5:colors=white:mode=line,format=yuv420p" "../pix2pix/imgs/video_sequences/showWaves/frame_%05d.png"
 
 
 
@@ -27,7 +27,11 @@ spell run --framework torch --apt ffmpeg --mount uploads/inputVideo:/mnt/inputVi
  spell run --framework torch --apt ffmpeg --mount runs/2118/imgs/video_sequences/wallenstein.mp4_-blur_0x50_-type_Grayscale_-contrast-stretch_0_wildeJagd2_512/AB:/inputImages/AB/train bash scripts/thomash/runTrain
 
 spell run --machine-type V100 --framework torch --apt ffmpeg --mount runs/2118/imgs/video_sequences/wallenstein.mp4_-blur_0x50_-type_Grayscale_-contrast-stretch_0_wildeJagd2_512/AB:/inputImages/AB/train bash scripts/thomash/runTrain
-spell run --machine-type V100 --framework torch --apt ffmpeg --mount runs/2149/checkpoints/wildeJagd_wallenstein_512_blurry/:checkpoints/w_fulltrain --mount uploads/inputRehearsal:video bash scripts/thomash/covertVideo w_fulltrain video/*
+spell run --machine-type V100 --framework torch --apt ffmpeg --mount runs/2149/checkpoints/wildeJagd_wallenstein_512_blurry/:checkpoints/w_fulltrain --mount uploads/inputRehearsal:video scripts/thomash/covertVideo w_fulltrain video/*
 
 #remove special chars from files
 rename 's/ |\$|@|\[|\]|\(|\)/_/g' *
+
+
+/Users/thomash/Code/pix2pix/imgs/video_sequences/2000_Intro_2__2018-06-07_162136_.wav-spectrum.mp4_-canny_0x2+7p+13ps_wildeJagd_elefanten/
+/Users/thomash/Code/pix2pix/imgs/video_sequences/2000_Intro_2__2018-06-07_162136_.wav-histogram.mp4_-canny_0x2+7p+13p_wildeJagd_elefanten/
