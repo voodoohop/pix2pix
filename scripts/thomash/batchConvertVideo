@@ -4,12 +4,12 @@ trap "exit" INT
 # model=wildeJagd_meister_512
 # params=("-blur 0x5 -type Grayscale -contrast-stretch 0" "-blur 0x30 -negate -type Grayscale -contrast-stretch 0")   
 
-# model=w_fulltrain
-# params=("-blur 0x40 -negate -type Grayscale -contrast-stretch 0")   
+model=w_fulltrain   
+params=("-blur 0x20 -type Grayscale -contrast-stretch 0")   
 
 
-model=wildeJagd_elefanten
-params=("-canny 0x2+5%+10%")
+# model=wildeJagd_elefanten
+# params=("-canny 0x2+5%+10%")
 
 
 
