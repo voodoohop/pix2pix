@@ -41,7 +41,7 @@ do
 done
 echo "running neural network..."
 rm -r results/$MODEL/latest_net_G_AB/images/
-DATA_ROOT=/tmp/imgs/video_sequences/$NAME name=$MODEL which_direction=BtoA phase=AB gpu=0 cudnn=0 loadSize=$VIDEOSIZE fineSize=$VIDEOSIZE th test.lua
+DATA_ROOT=/tmp/imgs/video_sequences/$NAME name=$MODEL which_direction=BtoA phase=AB gpu=1 cudnn=1 loadSize=$VIDEOSIZE fineSize=$VIDEOSIZE th test.lua
 echo "combining rendered frames and audio..."   
 ffmpeg -y -f image2 -pattern_type glob -framerate $FPS -i "results/$MODEL/latest_net_G_AB/images/output/*.png"  -i "/tmp/imgs/video_sequences/$NAME/output.mp3" -c:v prores_ks -profile:v 3  -f mov -acodec libmp3lame -aq 2 -crf 17  -r $FPS "results/$NAME.mov"
 # ffplay -loop 0 "results/$NAME.mov" &
