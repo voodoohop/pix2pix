@@ -29,6 +29,10 @@ spell run --framework torch --apt ffmpeg --mount uploads/inputVideo:/mnt/inputVi
 spell run --machine-type V100 --framework torch --apt ffmpeg --mount runs/2118/imgs/video_sequences/wallenstein.mp4_-blur_0x50_-type_Grayscale_-contrast-stretch_0_wildeJagd2_512/AB:/inputImages/AB/train bash scripts/thomash/runTrain
 spell run --machine-type V100 --framework torch --apt ffmpeg --mount runs/2149/checkpoints/wildeJagd_wallenstein_512_blurry/:checkpoints/w_fulltrain --mount uploads/inputRehearsal:video scripts/thomash/covertVideo w_fulltrain video/*
 
+# latest
+spell run --apt ffmpeg --apt imagemagick  --machine-type K80 --mount uploads/saure:/inputVideo --framework torch --mount runs/2149/checkpoints/wildeJagd_wallenstein_512_blurry/:checkpoints/w_fulltrain "./scripts/thomash/batchConvertVideo /inputVideo/*"
+spell run --apt ffmpeg --apt imagemagick  --machine-type K80 --mount uploads/saureInput:/inputVideo  --mount uploads/wildeJagd_elefanten:checkpoints/wildeJagd_elefanten --framework torch "./scripts/thomash/batchConvertVideo /inputVideo/*"
+
 #remove special chars from files
 rename 's/ |\$|@|\[|\]|\(|\)/_/g' *
 
